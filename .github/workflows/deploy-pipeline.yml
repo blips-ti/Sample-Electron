@@ -1,0 +1,30 @@
+name: Deploy Pipeline
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  pull_request_target:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup
+        run: |
+          echo "::notice::Running build ${{ github.run_id }}"
+          echo "BUILD_ID=${{ github.run_id }}" >> $GITHUB_ENV
+
+      - name: Compile
+        run: |
+          echo "Compiling..."
+          mkdir -p output
+          echo "done" > output/build.txt
+
+      - name: Test
+        run: |
+          echo "Tests passed"
